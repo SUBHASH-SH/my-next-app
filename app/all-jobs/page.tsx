@@ -1,4 +1,4 @@
-import Link from 'next/link';
+/*import Link from 'next/link';
 import pool from '@/lib/db';
 
 interface Job {
@@ -35,4 +35,4 @@ export default async function AllJobs() {
       </ul>
     </main>
   );
-}
+}*/
