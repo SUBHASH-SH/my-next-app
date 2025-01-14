@@ -1,4 +1,4 @@
-import { FaCalendarAlt, FaBuilding, FaLink } from 'react-icons/fa';
+/*import { FaCalendarAlt, FaBuilding, FaLink } from 'react-icons/fa';
 import pool from '@/lib/db';
 
 interface JobDetail {
@@ -53,7 +53,7 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
 
     return (
       <div className="container mx-auto px-4 py-8">
-      {/* Header Section */}
+      {/ Header Section /}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <h1 className="text-lg md:text-xl font-bold text-gray-800 mb-4">{job.title}</h1>
         <div className="flex flex-wrap gap-4 text-gray-600 text-sm">
@@ -68,7 +68,7 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
         </div>
       </div>
 
-      {/* Important Links */}
+      {/* Important Links /}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <div className="flex flex-wrap gap-4 justify-center">
           <a
@@ -101,7 +101,7 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
         </div>
       </div>
 
-      {/* Summary Section */}
+      {/* Summary Section /}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <h2 className="text-base font-semibold mb-4">Summary</h2>
         <div className="text-gray-600 whitespace-pre-line text-sm">
@@ -109,9 +109,9 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
         </div>
       </div>
 
-      {/* Main Content Grid */}
+      {/* Main Content Grid /}
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Important Dates */}
+        {/* Important Dates /}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-base font-semibold mb-4">Important Dates</h2>
           <div className="space-y-3 text-sm">
@@ -132,7 +132,7 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
           </div>
         </div>
 
-        {/* Application Fee */}
+        {/* Application Fee /}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-base font-semibold mb-4">Application Fee</h2>
           <div className="space-y-3 text-sm">
@@ -155,7 +155,7 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
           </div>
         </div>
 
-        {/* Age Limit */}
+        {/* Age Limit /}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-base font-semibold mb-4">Age Limit</h2>
           <div className="space-y-3 text-sm">
@@ -176,7 +176,7 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
           </div>
         </div>
 
-        {/* Salary Details */}
+        {/ Salary Details /}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-base font-semibold mb-4">Salary Details</h2>
           <div className="space-y-3 text-sm">
@@ -194,9 +194,9 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
         </div>
       </div>
 
-      {/* Full Width Sections */}
+      {/ Full Width Sections /}
       <div className="space-y-6 mt-6">
-        {/* Vacancy Details */}
+        {/ Vacancy Details /}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-base font-semibold mb-4">Vacancy Details</h2>
           <div className="space-y-3 text-sm">
@@ -211,19 +211,19 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
           </div>
         </div>
 
-        {/* Selection Process */}
+        {/ Selection Process /}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-base font-semibold mb-4">Selection Process</h2>
           <div className="text-gray-600 whitespace-pre-line text-sm">{job.selectionProcess}</div>
         </div>
 
-        {/* Required Documents */}
+        {/ Required Documents /}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-base font-semibold mb-4">Required Documents</h2>
           <div className="text-gray-600 whitespace-pre-line text-sm">{job.documents}</div>
         </div>
 
-        {/* How to Apply */}
+        {/ How to Apply /}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-base font-semibold mb-4">How to Apply</h2>
           <div className="text-gray-600 whitespace-pre-line text-sm">{job.howToApply}</div>
@@ -242,4 +242,4 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
       </div>
     );
   }
-}
+}*/
