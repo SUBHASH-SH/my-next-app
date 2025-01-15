@@ -9,8 +9,7 @@ interface Job {
   lastDate: string;
 }
 
-//export default async function AllJobs() {
-export async function getServerSideProps()
+export default async function AllJobs() {
   // Fetch jobs from the database
   const [rows] = await pool.query('SELECT * FROM job');
   const jobs: Job[] = JSON.parse(JSON.stringify(rows));
