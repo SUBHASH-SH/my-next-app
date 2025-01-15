@@ -10,8 +10,8 @@ interface Job {
 }
 
 export default async function AllJobs() {
-  
-  const [rows] = await db.query('SELECT * FROM job');
+
+  const [rows] = await pool.query('SELECT * FROM job');
   const jobs: Job[] = JSON.parse(JSON.stringify(rows));
 
   return (
