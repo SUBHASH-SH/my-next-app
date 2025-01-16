@@ -29,7 +29,7 @@ interface JobDetail {
 }
 
 interface JobDetailPageProps {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
 export default async function JobDetail({ params }: JobDetailPageProps) {
