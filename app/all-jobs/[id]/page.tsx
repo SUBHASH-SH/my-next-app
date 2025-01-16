@@ -246,7 +246,7 @@ export default async function JobDetail({
       <div className="container mx-auto px-4 py-8">
         <div className="text-center text-gray-600">
           <h1 className="text-2xl font-bold mb-4">Error</h1>
-          <p>Failed to fetch job details. Please try again later.{did}</p>
+          <p>Failed to fetch job details. Please try again later. {String(error)}</p>
         </div>
       </div>
     );
