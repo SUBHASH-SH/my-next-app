@@ -1,5 +1,5 @@
 //import { FaCalendarAlt, FaBuilding, FaLink } from 'react-icons/fa';
-//import pool from '@/lib/db';
+import pool from '@/lib/db';
 
 interface JobDetail {
   id: string;
@@ -38,10 +38,10 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
 
   //try {
     // Fetch job details from the database using the ID
-    //const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', ['Railway']);
-    //const job = JSON.parse(JSON.stringify(rows))[0];
+    const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', ['Railway']);
+    const job = JSON.parse(JSON.stringify(rows))[0];
 
-    //if (!job) {
+    if (!job) {}
       return (
         <div className="container mx-auto px-4 py-8">
           <div className="text-center text-gray-600">
