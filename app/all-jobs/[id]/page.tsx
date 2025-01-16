@@ -38,8 +38,10 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
 
   //try {
     // Fetch job details from the database using the ID
-    const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', ['Railway']);
-    const job = JSON.parse(JSON.stringify(rows))[0];
+    //const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', ['Railway']);
+    //const job = JSON.parse(JSON.stringify(rows))[0];
+    const [rows] = await pool.query('SELECT * FROM job');
+    const job = JSON.parse(JSON.stringify(rows));
 
     if (!job) {}
       return (
