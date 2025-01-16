@@ -34,8 +34,10 @@ interface JobDetailPageProps {
 
 export default async function JobDetail({ params }: JobDetailPageProps) {
   const { id } = await params;
+  console.log(id);
 
   try {
+    console.log('Fetching job details for ID:', id);
     // Fetch job details from the database using the ID
     const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [id]);
     const job = JSON.parse(JSON.stringify(rows))[0];
