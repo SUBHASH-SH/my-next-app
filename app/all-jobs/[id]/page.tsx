@@ -33,7 +33,8 @@ interface JobDetailPageProps {
 }
 
 export default async function JobDetail({ params }: JobDetailPageProps) {
-  //const { id } = await params;
+  const { id } = await params;
+  console.log(id);
 
   //try {
     // Fetch job details from the database using the ID
