@@ -28,22 +28,25 @@ interface JobDetail {
   officialWebsite: string;
 }
 
-//interface JobDetailPageProps {
- // params: Promise<{ id: string }>;
-//}
 
-export default async function JobDetail({ 
-  searchParams,
- }:{
-  searchParams:{
-      id: string;
-      category: string;
-    };
- }) {
+export default async function JobDetail({
+  params,
+}:{
+    params: Promise<{ id: string }>
+})
+{
+  const did = (await params).id;
+  console.log(did);
 
+  /*interface JobDetailPageProps {
+    params: Promise<{ id: string }>;
+  }
+  
+  export default async function JobDetail({ params }: JobDetailPageProps) {
+    const { id } = await params;*/
   try {
     // Fetch job details from the database using the ID
-    const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [searchParams.id]);
+    const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [did]);
     const job = JSON.parse(JSON.stringify(rows))[0];
 
     if (!job) {

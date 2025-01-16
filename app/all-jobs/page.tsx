@@ -9,15 +9,10 @@ interface Job {
   lastDate: string;
 }
 
-// Fetch data at build time
-async function getJobs() {
+export default async function AllJobs() {
+  // Fetch jobs from the database
   const [rows] = await pool.query('SELECT * FROM job');
   const jobs: Job[] = JSON.parse(JSON.stringify(rows));
-  return jobs;
-}
-
-export default async function AllJobs() {
-  const jobs = await getJobs(); // Fetch data at build time
 
   return (
     <main>
@@ -26,7 +21,7 @@ export default async function AllJobs() {
         {jobs.map((job) => {
           return (
             <li key={job.id}>
-              <Link href={{pathname:"/all-jobs/id",query:{id:job.id,category:job.category,},}}>
+              <Link href={`/all-jobs/${job.id}`}>
                 <div style={{ cursor: 'pointer', padding: '10px', border: '1px solid #ccc', marginBottom: '10px' }}>
                   <h2>{job.title}</h2>
                   <p>Organization: {job.organization}</p>
@@ -39,5 +34,5 @@ export default async function AllJobs() {
         })}
       </ul>
     </main>
-  );
+  )
 }
