@@ -28,16 +28,16 @@ interface JobDetail {
   officialWebsite: string;
 }
 
-interface JobDetailPageProps {
-  params: Promise<{ id: string }>;
-}
+//interface JobDetailPageProps {
+//  params: Promise<{ id: string }>;
+//}
 
-export default async function JobDetail({ params }: JobDetailPageProps) {
-  const { id } = await params;
+export default async function JobDetail(){
 
   try {
+    //console.log('Fetching job details for ID:', id);
     // Fetch job details from the database using the ID
-    const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [id]);
+    const [rows] = await pool.query('SELECT * FROM job WHERE id = ?',['Railway']);
     const job = JSON.parse(JSON.stringify(rows))[0];
 
     if (!job) {
@@ -237,7 +237,7 @@ export default async function JobDetail({ params }: JobDetailPageProps) {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center text-gray-600">
           <h1 className="text-2xl font-bold mb-4">Error</h1>
-          <p>Failed to fetch job details. Please try again later. {id}</p>
+          <p>Failed to fetch job details. Please try again later.</p>
         </div>
       </div>
     );
