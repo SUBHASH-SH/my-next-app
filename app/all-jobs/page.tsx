@@ -9,10 +9,15 @@ interface Job {
   lastDate: string;
 }
 
-export default async function AllJobs() {
-
+// Fetch data at build time
+async function getJobs() {
   const [rows] = await pool.query('SELECT * FROM job');
   const jobs: Job[] = JSON.parse(JSON.stringify(rows));
+  return jobs;
+}
+
+export default async function AllJobs() {
+  const jobs = await getJobs(); // Fetch data at build time
 
   return (
     <main>
@@ -34,5 +39,5 @@ export default async function AllJobs() {
         })}
       </ul>
     </main>
-  )
+  );
 }
