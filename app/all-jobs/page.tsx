@@ -31,6 +31,7 @@ export default async function AllJobs() {
                   <h2>{job.title}</h2>
                   <p>Organization: {job.organization}</p>
                   <p>Category: {job.category}</p>
+                  <p>Category: {process.env.db_host}</p>
                   <p>Last Date: {new Date(job.lastDate).toLocaleDateString()}</p>
                 </div>
               </Link>
