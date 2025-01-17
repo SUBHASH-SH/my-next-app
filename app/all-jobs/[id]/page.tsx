@@ -1,6 +1,5 @@
 import { FaCalendarAlt, FaBuilding, FaLink } from 'react-icons/fa';
-//import pool from '@/lib/db';
-import pool from '../../../lib/db';
+import pool from '@/lib/db';
 
 interface JobDetail {
   id: string;
