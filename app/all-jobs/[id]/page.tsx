@@ -1,5 +1,5 @@
 import { FaCalendarAlt, FaBuilding, FaLink } from 'react-icons/fa';
-import pool from '@/lib/db';
+import { getPostBySlug } from '@/lib/post';
 
 interface JobDetail {
   id: string;
@@ -28,6 +28,12 @@ interface JobDetail {
   officialWebsite: string;
 }
 
+/*async function getJobs(did: string) {
+  const posts = await getPostBySlug(did);
+  const jobs: JobDetail[] = JSON.parse(JSON.stringify(posts));
+  return jobs;
+}*/
+
 
 export default async function JobDetail({
   params,
@@ -38,16 +44,16 @@ export default async function JobDetail({
   const did = (await params).id;
   console.log(did);
 
-  /*interface JobDetailPageProps {
-    params: Promise<{ id: string }>;
-  }
   
-  export default async function JobDetail({ params }: JobDetailPageProps) {
-    const { id } = await params;*/
   try {
+    //const job = data[0];
     // Fetch job details from the database using the ID
-    const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [did]);
-    const job = JSON.parse(JSON.stringify(rows))[0];
+    //const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [did]);
+    //const job = JSON.parse(JSON.stringify(rows))[0];
+
+    const posts = await getPostBySlug(did);
+    const job = JSON.parse(JSON.stringify(posts));
+    console.log(job);
 
     if (!job) {
       return (
@@ -171,6 +177,7 @@ export default async function JobDetail({
             <div>
               <span className="font-medium">Minimum Age:</span>
               <span className="ml-2">{job.ageMin} years</span>
+              <span className="ml-2">{process.env.db_host} db</span>
             </div>
             <div>
               <span className="font-medium">Maximum Age:</span>
