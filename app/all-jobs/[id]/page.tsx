@@ -28,13 +28,6 @@ interface JobDetail {
   officialWebsite: string;
 }
 
-/*async function getJobs(did: string) {
-  const posts = await getPostBySlug(did);
-  const jobs: JobDetail[] = JSON.parse(JSON.stringify(posts));
-  return jobs;
-}*/
-
-
 export default async function JobDetail({
   params,
 }:{
@@ -46,27 +39,6 @@ export default async function JobDetail({
 
   
   try {
-    //const post = getJobs(did); // Fetch data at build time
-    // Fetch job details from the database using the ID
-    //const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [did]);
-    //const job = JSON.parse(JSON.stringify(rows))[0];
-    try{
-    const job = await getPostBySlug(did);
-    //const job = JSON.parse(JSON.stringify(posts));
-    console.log(job);
-  }catch(error){
-      
-      return (
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-gray-600">
-            <h1 className="text-2xl font-bold mb-4">Job Not Found</h1>
-            <p>The job you are looking for does not exist or has been removed.{String(error)}</p>
-            <p>The job you are looking for does not exist or has been removed.{process.env.db_user}</p>
-            <p>The job you are looking for does not exist or has been removed.{process.env.db_host}</p>
-          </div>
-        </div>
-      );
-    }
     const job = await getPostBySlug(did);
     if (!job) {
       return (
@@ -266,7 +238,7 @@ export default async function JobDetail({
       <div className="container mx-auto px-4 py-8">
         <div className="text-center text-gray-600">
           <h1 className="text-2xl font-bold mb-4">Error</h1>
-          <p>Failed to fetch job details. Please try again later.{getPostBySlug(did)} </p>
+          <p>Failed to fetch job details. Please try again later.</p>
         </div>
       </div>
     );
