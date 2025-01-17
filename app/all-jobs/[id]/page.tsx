@@ -50,11 +50,24 @@ export default async function JobDetail({
     // Fetch job details from the database using the ID
     //const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [did]);
     //const job = JSON.parse(JSON.stringify(rows))[0];
-
+    try{
     const job = await getPostBySlug(did);
     //const job = JSON.parse(JSON.stringify(posts));
     console.log(job);
-
+  }catch(error){
+      
+      return (
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center text-gray-600">
+            <h1 className="text-2xl font-bold mb-4">Job Not Found</h1>
+            <p>The job you are looking for does not exist or has been removed.{String(error)}</p>
+            <p>The job you are looking for does not exist or has been removed.{process.env.db_user}</p>
+            <p>The job you are looking for does not exist or has been removed.{process.env.db_host}</p>
+          </div>
+        </div>
+      );
+    }
+    const job = await getPostBySlug(did);
     if (!job) {
       return (
         <div className="container mx-auto px-4 py-8">
