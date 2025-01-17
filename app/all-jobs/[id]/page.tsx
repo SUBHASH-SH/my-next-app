@@ -46,13 +46,13 @@ export default async function JobDetail({
 
   
   try {
-    //const job = data[0];
+    //const post = getJobs(did); // Fetch data at build time
     // Fetch job details from the database using the ID
     //const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [did]);
     //const job = JSON.parse(JSON.stringify(rows))[0];
 
-    const posts = await getPostBySlug(did);
-    const job = JSON.parse(JSON.stringify(posts));
+    const job = await getPostBySlug(did);
+    //const job = JSON.parse(JSON.stringify(posts));
     console.log(job);
 
     if (!job) {
@@ -253,7 +253,7 @@ export default async function JobDetail({
       <div className="container mx-auto px-4 py-8">
         <div className="text-center text-gray-600">
           <h1 className="text-2xl font-bold mb-4">Error</h1>
-          <p>Failed to fetch job details. Please try again later.{process.env.db_host} </p>
+          <p>Failed to fetch job details. Please try again later.{getPostBySlug(did)} </p>
         </div>
       </div>
     );
