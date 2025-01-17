@@ -21,9 +21,9 @@ const pool = mysql.createPool({
   user: process.env.db_user,
   password: process.env.db_password,
   database: process.env.db_name,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+  waitForConnections: true, // Wait for a connection to be available before throwing an error
+  connectionLimit: 10, // Maximum number of connections in the pool
+  queueLimit: 0, // Maximum number of queued connection requests (0 means no limit)
 })
 
 export default pool;
