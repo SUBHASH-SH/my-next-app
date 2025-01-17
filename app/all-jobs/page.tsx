@@ -1,5 +1,5 @@
 // app/page.tsx
-import { getPostBySlug, getPosts } from '@/lib/post';
+import { getPosts } from '@/lib/post';
 import Link from 'next/link';
 
 interface Job {
