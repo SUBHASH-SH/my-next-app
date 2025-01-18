@@ -1,5 +1,5 @@
 import { FaCalendarAlt, FaBuilding, FaLink } from 'react-icons/fa';
-import { getJobPostBySlug } from '@/lib/post';
+import { getAdmitBySlug } from '@/lib/post';
 
 interface JobDetail {
   id: string;
@@ -34,12 +34,12 @@ export default async function JobDetail({
     params: Promise<{ id: string }>
 })
 {
-  const jid = (await params).id;
-  console.log(jid);
+  const aid = (await params).id;
+  console.log(aid);
 
   
   try {
-    const job = await getJobPostBySlug(jid);
+    const job = await getAdmitBySlug(aid);
     if (!job) {
       return (
         <div className="container mx-auto px-4 py-8">

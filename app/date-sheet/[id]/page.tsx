@@ -1,5 +1,5 @@
 import { FaCalendarAlt, FaBuilding, FaLink } from 'react-icons/fa';
-import { getJobPostBySlug } from '@/lib/post';
+import { getDateBySlug } from '@/lib/post';
 
 interface JobDetail {
   id: string;
@@ -39,7 +39,7 @@ export default async function JobDetail({
 
   
   try {
-    const job = await getJobPostBySlug(jid);
+    const job = await getDateBySlug(jid);
     if (!job) {
       return (
         <div className="container mx-auto px-4 py-8">

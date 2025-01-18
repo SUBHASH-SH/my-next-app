@@ -1,5 +1,5 @@
 // app/page.tsx
-import { getPosts } from '@/lib/post';
+import { getJobPosts } from '@/lib/post';
 import Link from 'next/link';
 
 interface Job {
@@ -11,7 +11,7 @@ interface Job {
 }
 
 async function getJobs() {
-  const posts = await getPosts();
+  const posts = await getJobPosts();
   const jobs: Job[] = JSON.parse(JSON.stringify(posts));
   return jobs;
 }
