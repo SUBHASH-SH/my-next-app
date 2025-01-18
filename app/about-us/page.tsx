@@ -6,7 +6,7 @@ export default function About() {
           <p>
             SarkariNaukri-India.in is your trusted source for the latest government job notifications,
             results, admit cards, and more. We are committed to providing accurate and timely
-            information to help you succeed in your career.
+            information to help you succeed in your career NULLLLLL.
           </p>
           {/* Add more content as needed */}
         </div>
