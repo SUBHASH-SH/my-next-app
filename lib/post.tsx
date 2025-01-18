@@ -16,81 +16,83 @@ export async function getJobPostBySlug(jid: string) {
 
 // Fetch Result posts
 export async function getAdmitPosts() {
-  const [rows] = await pool.query('SELECT * FROM job');
+  const [rows] = await pool.query('SELECT * FROM admit');
   return rows;
 }
 
 // Fetch a single result post by slug
 export async function getAdmitBySlug(aid: string) {
-  const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [aid]);
+  const [rows] = await pool.query('SELECT * FROM admit WHERE id = ?', [aid]);
   const job = JSON.parse(JSON.stringify(rows))[0];
   return job;
 }
 
 // Fetch Result posts
 export async function getResultPosts() {
-  const [rows] = await pool.query('SELECT * FROM job');
+  const [rows] = await pool.query('SELECT * FROM result');
   return rows;
 }
 
 // Fetch a single result post by slug
 export async function getJobResultBySlug(rid: string) {
-  const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [rid]);
+  const [rows] = await pool.query('SELECT * FROM result WHERE id = ?', [rid]);
   const job = JSON.parse(JSON.stringify(rows))[0];
   return job;
 }
 
 // Fetch News posts
 export async function getNewsPosts() {
-  const [rows] = await pool.query('SELECT * FROM job');
+  const [rows] = await pool.query('SELECT * FROM news');
   return rows;
 }
 
 // Fetch a single result post by slug
 export async function getNewsBySlug(nid: string) {
-  const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [nid]);
+  const [rows] = await pool.query('SELECT * FROM news WHERE id = ?', [nid]);
   const job = JSON.parse(JSON.stringify(rows))[0];
   return job;
 }
 
-// Fetch News posts
+// Fetch Answer posts
 export async function getAnswerPosts() {
-  const [rows] = await pool.query('SELECT * FROM job');
+  const [rows] = await pool.query('SELECT * FROM answer');
   return rows;
 }
 
-// Fetch a single result post by slug
+// Fetch a single answer post by slug
 export async function getAnswerBySlug(anid: string) {
-  const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [anid]);
+  const [rows] = await pool.query('SELECT * FROM answer WHERE id = ?', [anid]);
   const job = JSON.parse(JSON.stringify(rows))[0];
   return job;
 }
 
-// Fetch News posts
+// Fetch syllabus posts
 export async function getSyllabusPosts() {
-  const [rows] = await pool.query('SELECT * FROM job');
+  const [rows] = await pool.query('SELECT * FROM syllabus');
   return rows;
 }
 
-// Fetch a single result post by slug
-export async function getSallabusBySlug(sid: string) {
-  const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [sid]);
+// Fetch a single syllabus post by slug
+export async function getSyllabusBySlug(sid: string) {
+  const [rows] = await pool.query('SELECT * FROM syllabus WHERE id = ?', [sid]);
   const job = JSON.parse(JSON.stringify(rows))[0];
   return job;
 }
 
-// Fetch News posts
+// Fetch date posts
 export async function getDatePosts() {
-  const [rows] = await pool.query('SELECT * FROM job');
+  const [rows] = await pool.query('SELECT * FROM date');
   return rows;
 }
 
-// Fetch a single result post by slug
+// Fetch a single date post by slug
 export async function getDateBySlug(did: string) {
-  const [rows] = await pool.query('SELECT * FROM job WHERE id = ?', [did]);
+  const [rows] = await pool.query('SELECT * FROM date WHERE id = ?', [did]);
   const job = JSON.parse(JSON.stringify(rows))[0];
   return job;
 }
+
+////-------------------Admin-------------------////
 
 
 
