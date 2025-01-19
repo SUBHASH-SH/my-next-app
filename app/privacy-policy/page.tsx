@@ -2,7 +2,7 @@ export default function About() {
     return (
         <div className="grid grid-rows-auto items-start justify-items-start min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] text-gray-900">
             <h1 className="text-3xl font-bold text-blue-800 mb-6">Privacy Policy</h1>
-            <p className="text-justify mb-6">Welcome to SarkariNaukri-India.in (hereinafter referred to as we, us" or our). We respect your privacy and are committed to maintaining the trust of our visitors. This Privacy Policy explains how we handle information when you visit our website www.sarkarinaukri-india.in.</p>
+            <p className="text-justify mb-6">Welcome to SarkariNaukri-India.in (hereinafter referred to as we, us or our). We respect your privacy and are committed to maintaining the trust of our visitors. This Privacy Policy explains how we handle information when you visit our website www.sarkarinaukri-india.in.</p>
             <h2 className="text-2xl font-bold text-blue-800 mb-4">1. No Information Collection</h2>
             <p className="text-justify mb-6">We do not collect any personal or non-personal information from our visitors. This means:</p>
             <ul className="list-disc pl-5 mb-6">
