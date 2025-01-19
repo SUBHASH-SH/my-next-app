@@ -79,10 +79,6 @@ export default async function JobDetail({
       {/* Important Links */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <div className="flex flex-wrap gap-4 justify-center">
-        <div className="flex items-center">
-            <FaCalendarAlt className="mr-2" />
-            <span>Last Date: {new Date(job.lastDate).toLocaleDateString('en-IN')}</span>
-          </div>
           <a
             href={job.applyLink}
             target="_blank"
@@ -127,18 +123,18 @@ export default async function JobDetail({
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-base font-semibold  text-gray-800 mb-4">Important Dates</h2>
           <div className="space-y-3 text-sm">
-            <div className="flex items-center justify-between p-2 bg-green-50 rounded-md">
-              <span className="font-medium text-gray-600">Start Date:</span>
-              <span className="text-green-600">{new Date(job.startDate).toLocaleDateString('en-IN')}</span>
+            <div className="flex items-center justify-between p-2 bg-green-100 rounded-md">
+              <span className="font-medium text-gray-800">Start Date:</span>
+              <span className="text-green-800">{new Date(job.startDate).toLocaleDateString('en-IN')}</span>
             </div>
-            <div className="flex items-center justify-between p-2 bg-red-50 rounded-md">
-              <span className="font-medium text-gray-600">Last Date:</span>
-              <span className="text-red-600">{new Date(job.lastDate).toLocaleDateString('en-IN')}</span>
+            <div className="flex items-center justify-between p-2 bg-red-100 rounded-md">
+              <span className="font-medium text-gray-800">Last Date:</span>
+              <span className="text-red-800">{new Date(job.lastDate).toLocaleDateString('en-IN')}</span>
             </div>
             {job.examDate && (
-              <div className="flex items-center justify-between p-2 bg-purple-50 rounded-md">
-                <span className="font-medium text-gray-600">Exam Date:</span>
-                <span className="text-purple-600">{new Date(job.examDate).toLocaleDateString('en-IN')}</span>
+              <div className="flex items-center justify-between p-2 bg-purple-100 rounded-md">
+                <span className="font-medium text-gray-800">Exam Date:</span>
+                <span className="text-purple-800">{new Date(job.examDate).toLocaleDateString('en-IN')}</span>
               </div>
             )}
           </div>
