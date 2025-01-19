@@ -1,4 +1,4 @@
-import { FaCalendarAlt, FaBuilding, FaLink } from 'react-icons/fa';
+import { FaBuilding, FaLink } from 'react-icons/fa';
 import { getJobPostBySlug } from '@/lib/post';
 
 interface JobDetail {
