@@ -27,12 +27,10 @@ export default async function AllJobs() {
           return (
             <li key={job.id}>
               <Link href={`/all-jobs/${job.id}`}>
-                <div style={{ cursor: 'pointer', padding: '10px', border: '1px solid #ccc', marginBottom: '10px' }}>
+              <div style={{ cursor: 'pointer', padding: '10px', border: '1px solid #ccc', marginBottom: '10px', color: 'black' }}>
                   <h2>{job.title}</h2>
                   <p>Organization: {job.organization}</p>
-                  <p>Category: {job.category}</p>
-                  <p>Category: {process.env.db_host}</p>
-                  <p>Last Date: {new Date(job.lastDate).toLocaleDateString()}</p>
+                  <p>Category: {job.category} <span style={{ float: 'right' }}>Post Date: {new Date(job.lastDate).toLocaleDateString()}</span></p>
                 </div>
               </Link>
             </li>

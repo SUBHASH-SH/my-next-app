@@ -34,7 +34,7 @@ export async function getResultPosts() {
 }
 
 // Fetch a single result post by slug
-export async function getJobResultBySlug(rid: string) {
+export async function getResultBySlug(rid: string) {
   const [rows] = await pool.query('SELECT * FROM result WHERE id = ?', [rid]);
   const job = JSON.parse(JSON.stringify(rows))[0];
   return job;
