@@ -9,11 +9,11 @@ interface Job {
   postdate: string;
 }
 
-async function getJobs() {
+/*async function getJobs() {
   const posts = await getJobPosts();
   const jobs: Job[] = JSON.parse(JSON.stringify(posts));
   return jobs;
-}
+}*/
 
 export default async function AllJobs() {
   //const jobs = await getJobs(); // Fetch data at build time
@@ -31,21 +31,24 @@ export default async function AllJobs() {
       posts: '1105 Posts',
       lastDate: 'Last Date: 05/04/2024',
       qualification: 'Graduation',
-      isNew: true
+      isNew: true,
+      category: 'Civil Services'
     },
     {
       title: 'Indian Army SSC Tech 2024',
       posts: '191 Posts',
       lastDate: 'Last Date: 28/03/2024',
       qualification: 'B.E/B.Tech',
-      isNew: true
+      isNew: true,
+      category: 'Defence'
     },
     {
       title: 'SBI Clerk Recruitment 2024',
       posts: '8283 Posts',
       lastDate: 'Last Date: 21/03/2024',
       qualification: 'Graduation',
-      isNew: false
+      isNew: false,
+      category: 'Banking'
     }
   ];
 
@@ -83,6 +86,25 @@ export default async function AllJobs() {
       date: 'Updated: 13 March 2024',
       status: 'Download Now'
     }
+  ];
+
+  const jobCategories = [
+    'Banking',
+    'Teaching',
+    'Railway',
+    'Police',
+    'Engineering',
+    'Medical',
+    'Defence',
+    'Other'
+  ];
+
+  const states = [
+    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 
+    'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 
+    'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 
+    'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 
+    'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'
   ];
 
   return (
@@ -168,6 +190,30 @@ export default async function AllJobs() {
                       </div>
                     </a>
                   </div>
+                ))}
+              </div>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <div className="flex items-center space-x-2 border-b pb-2 mb-4">
+                <h2 className="text-lg font-bold text-black">Job Categories</h2>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {jobCategories.map(category => (
+                  <button key={category} className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <div className="flex items-center space-x-2 border-b pb-2 mb-4">
+                <h2 className="text-lg font-bold text-black">States</h2>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {states.map(state => (
+                  <button key={state} className="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600">
+                    {state}
+                  </button>
                 ))}
               </div>
             </div>
