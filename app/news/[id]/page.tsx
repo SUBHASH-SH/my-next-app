@@ -1,5 +1,7 @@
-import { FaCalendarAlt, FaBuilding, FaLink } from 'react-icons/fa';
+import { FaBuilding, FaLink } from 'react-icons/fa';
 import { getNewsBySlug } from '@/lib/post';
+import { getNewsPosts } from '@/lib/post';
+import Link from 'next/link';
 
 interface JobDetail {
   id: string;
@@ -28,6 +30,20 @@ interface JobDetail {
   officialWebsite: string;
 }
 
+interface Job {
+  id: string;
+  title: string;
+  organization: string;
+  category: string;
+  lastDate: string;
+}
+
+async function getJobs() {
+  const posts = await getNewsPosts();
+  const jobs: Job[] = JSON.parse(JSON.stringify(posts));
+  return jobs;
+}
+
 export default async function JobDetail({
   params,
 }:{
@@ -40,6 +56,7 @@ export default async function JobDetail({
   
   try {
     const job = await getNewsBySlug(rid);
+    const jobs = await getJobs();
     if (!job) {
       return (
         <div className="container mx-auto px-4 py-8">
@@ -52,19 +69,20 @@ export default async function JobDetail({
     }
 
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8" style={{ maxWidth: '800px', color: 'black' }}>
       {/* Header Section */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <h1 className="text-lg md:text-xl font-bold text-gray-800 mb-4">{job.title}</h1>
         <div className="flex flex-wrap gap-4 text-gray-600 text-sm">
+          <div className="flex items-center" style={{ width: '100%' }}>
+            <span>Category: {job.category}</span>
+            <span style={{ marginLeft: 'auto' }}>Post Date: {new Date(job.startDate).toLocaleDateString('en-IN')}</span>
+          </div>
           <div className="flex items-center">
             <FaBuilding className="mr-2" />
             <span>{job.organization}</span>
           </div>
-          <div className="flex items-center">
-            <FaCalendarAlt className="mr-2" />
-            <span>Last Date: {new Date(job.lastDate).toLocaleDateString('en-IN')}</span>
-          </div>
+          
         </div>
       </div>
 
@@ -75,10 +93,10 @@ export default async function JobDetail({
             href={job.applyLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm"
+            className="inline-flex items-center px-4 py-2 bg-green-800 text-white rounded-md hover:bg-green-900 transition-colors text-sm"
           >
             <FaLink className="mr-2" />
-            Apply Online
+            Check Result
           </a>
           <a
             href={job.notificationLink}
@@ -103,131 +121,47 @@ export default async function JobDetail({
 
       {/* Summary Section */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h2 className="text-base font-semibold mb-4">Summary</h2>
-        <div className="text-gray-600 whitespace-pre-line text-sm">
-          {job.summary}
-        </div>
-      </div>
-
-      {/* Main Content Grid */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Important Dates */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-base font-semibold mb-4">Important Dates</h2>
-          <div className="space-y-3 text-sm">
-            <div className="flex items-center justify-between p-2 bg-green-50 rounded-md">
-              <span className="font-medium text-gray-600">Start Date:</span>
-              <span className="text-green-600">{new Date(job.startDate).toLocaleDateString('en-IN')}</span>
-            </div>
-            <div className="flex items-center justify-between p-2 bg-red-50 rounded-md">
-              <span className="font-medium text-gray-600">Last Date:</span>
-              <span className="text-red-600">{new Date(job.lastDate).toLocaleDateString('en-IN')}</span>
-            </div>
-            {job.examDate && (
-              <div className="flex items-center justify-between p-2 bg-purple-50 rounded-md">
-                <span className="font-medium text-gray-600">Exam Date:</span>
-                <span className="text-purple-600">{new Date(job.examDate).toLocaleDateString('en-IN')}</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Application Fee */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-base font-semibold mb-4">Application Fee</h2>
-          <div className="space-y-3 text-sm">
-            <div>
-              <span className="font-medium">General:</span>
-              <span className="ml-2">₹{job.feeGeneral}</span>
-            </div>
-            <div>
-              <span className="font-medium">OBC:</span>
-              <span className="ml-2">₹{job.feeOBC}</span>
-            </div>
-            <div>
-              <span className="font-medium">SC/ST:</span>
-              <span className="ml-2">₹{job.feeSC}</span>
-            </div>
-            <div>
-              <span className="font-medium">Women:</span>
-              <span className="ml-2">₹{job.feeWomen}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Age Limit */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-base font-semibold mb-4">Age Limit</h2>
-          <div className="space-y-3 text-sm">
-            <div>
-              <span className="font-medium">Minimum Age:</span>
-              <span className="ml-2">{job.ageMin} years</span>
-              <span className="ml-2">{process.env.db_host} db</span>
-            </div>
-            <div>
-              <span className="font-medium">Maximum Age:</span>
-              <span className="ml-2">{job.ageMax} years</span>
-            </div>
-            {job.ageRelaxation && (
-              <div>
-                <span className="font-medium">Age Relaxation:</span>
-                <div className="mt-2 text-gray-600 whitespace-pre-line text-sm">{job.ageRelaxation}</div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Salary Details */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-base font-semibold mb-4">Salary Details</h2>
-          <div className="space-y-3 text-sm">
-            <div>
-              <span className="font-medium">Pay Scale:</span>
-              <span className="ml-2">{job.payScale}</span>
-            </div>
-            {job.salaryBreakup && (
-              <div>
-                <span className="font-medium">Salary Breakup:</span>
-                <div className="mt-2 text-gray-600 whitespace-pre-line text-sm">{job.salaryBreakup}</div>
-              </div>
-            )}
-          </div>
+        <h2 className="text-base font-semibold text-gray-800 mb-4">Top News</h2>
+        <div className="text-gray-800 whitespace-pre-line text-sm">
+        <ul>
+          {jobs.map((job) => {
+            return (
+              <li key={job.id}>
+                <Link href={`/news/${job.id}`}>
+                <div style={{ cursor: 'pointer', padding: '10px',  marginBottom: '10px', color: 'black' }}>
+                    <h2>{job.title}</h2>
+                    <p>Organization: {job.organization}</p>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
         </div>
       </div>
 
       {/* Full Width Sections */}
       <div className="space-y-6 mt-6">
-        {/* Vacancy Details */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-base font-semibold mb-4">Vacancy Details</h2>
-          <div className="space-y-3 text-sm">
-            <div>
-              <span className="font-medium">Total Vacancies:</span>
-              <span className="ml-2">{job.totalVacancies}</span>
-            </div>
-            <div>
-              <span className="font-medium">Category-wise Breakup:</span>
-              <div className="mt-2 text-gray-600 whitespace-pre-line text-sm">{job.vacancyBreakup}</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Selection Process */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-base font-semibold mb-4">Selection Process</h2>
-          <div className="text-gray-600 whitespace-pre-line text-sm">{job.selectionProcess}</div>
-        </div>
-
-        {/* Required Documents */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-base font-semibold mb-4">Required Documents</h2>
-          <div className="text-gray-600 whitespace-pre-line text-sm">{job.documents}</div>
-        </div>
 
         {/* How to Apply */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-base font-semibold mb-4">How to Apply</h2>
-          <div className="text-gray-600 whitespace-pre-line text-sm">{job.howToApply}</div>
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <h2 className="text-base font-semibold text-gray-800 mb-4">Related news</h2>
+          <div className="text-gray-800 whitespace-pre-line text-sm">
+          <ul>
+          {jobs.map((job) => {
+            return (
+              <li key={job.id}>
+                <Link href={`/news/${job.id}`}>
+                <div style={{ cursor: 'pointer', padding: '10px',  marginBottom: '10px', color: 'black' }}>
+                    <h2>{job.title}</h2>
+                    <p>Organization: {job.organization}</p>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+        </div>
         </div>
       </div>
     </div>
