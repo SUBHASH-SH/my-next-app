@@ -108,17 +108,17 @@ export default async function AllJobs() {
   ];
 
   return (
-    <div className="bg-gray-50 p-4 rounded-lg mb-8">
+    <div className="bg-gray-100 p-4 rounded-lg mb-8">
       <main className="container mx-auto px-4 py-6">
-        <div className="bg-gray-50 p-4 rounded-lg mb-8">
-          <div className="flex items-center space-x-2 text-red-600 mb-3">
+        <div className="bg-gray-100 p-4 rounded-lg mb-8">
+          <div className="flex items-center space-x-2 text-red-700 mb-3">
             <h3 className="font-semibold">Important Updates</h3>
           </div>
           <div className="space-y-2">
             {updates.map(update => (
               <div key={update} className="flex items-center space-x-2">
-                <span className="h-2 w-2 bg-red-500 rounded-full"></span>
-                <p className="text-gray-800">{update}</p>
+                <span className="h-2 w-2 bg-red-600 rounded-full"></span>
+                <p className="text-gray-900">{update}</p>
               </div>
             ))}
           </div>
@@ -133,19 +133,19 @@ export default async function AllJobs() {
               <div className="space-y-4">
                 {joba.map(joba => (
                   <div key={joba.title} className="border-b pb-4 last:border-0">
-                    <a href="#" className="block hover:text-red-600">
+                    <a href="#" className="block hover:text-red-700">
                       <div className="flex justify-between items-start">
                         <h3 className="font-medium text-black">{joba.title}</h3>
                         {joba.isNew && (
-                          <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">
+                          <span className="px-2 py-1 bg-yellow-200 text-yellow-900 text-xs rounded">
                             New
                           </span>
                         )}
                       </div>
                       <div className="grid grid-cols-2 gap-2 text-sm mt-2">
-                        <div className="text-gray-600">{joba.posts}</div>
-                        <div className="text-gray-600">{joba.lastDate}</div>
-                        <div className="text-gray-600">Qualification: {joba.qualification}</div>
+                        <div className="text-gray-700">{joba.posts}</div>
+                        <div className="text-gray-700">{joba.lastDate}</div>
+                        <div className="text-gray-700">Qualification: {joba.qualification}</div>
                       </div>
                     </a>
                   </div>
@@ -162,11 +162,11 @@ export default async function AllJobs() {
               <div className="space-y-3">
                 {results.map(result => (
                   <div key={result.title} className="border-b pb-3 last:border-0">
-                    <a href="#" className="block hover:text-red-600">
+                    <a href="#" className="block hover:text-red-700">
                       <h3 className="font-medium text-black">{result.title}</h3>
                       <div className="flex justify-between text-sm mt-1">
-                        <span className="text-gray-600">{result.date}</span>
-                        <span className="text-green-600 font-medium">{result.status}</span>
+                        <span className="text-gray-700">{result.date}</span>
+                        <span className="text-green-700 font-medium">{result.status}</span>
                       </div>
                     </a>
                   </div>
@@ -182,11 +182,11 @@ export default async function AllJobs() {
               <div className="space-y-3">
                 {admitCards.map(card => (
                   <div key={card.title} className="border-b pb-3 last:border-0">
-                    <a href="#" className="block hover:text-red-600">
+                    <a href="#" className="block hover:text-red-700">
                       <h3 className="font-medium text-black">{card.title}</h3>
                       <div className="flex justify-between text-sm mt-1">
-                        <span className="text-gray-600">{card.date}</span>
-                        <span className="text-blue-600 font-medium">{card.status}</span>
+                        <span className="text-gray-700">{card.date}</span>
+                        <span className="text-blue-700 font-medium">{card.status}</span>
                       </div>
                     </a>
                   </div>
@@ -199,7 +199,7 @@ export default async function AllJobs() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {jobCategories.map(category => (
-                  <button key={category} className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
+                  <button key={category} className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">
                     {category}
                   </button>
                 ))}
@@ -211,7 +211,7 @@ export default async function AllJobs() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {states.map(state => (
-                  <button key={state} className="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600">
+                  <button key={state} className="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700">
                     {state}
                   </button>
                 ))}
