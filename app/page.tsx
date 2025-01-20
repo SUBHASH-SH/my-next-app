@@ -1,13 +1,13 @@
 // app/page.tsx
-import { getJobPosts } from '@/lib/post';
-
+//import { getJobPosts } from '@/lib/post';
+/*
 interface Job {
   id: string;
   title: string;
   organization: string;
   category: string;
   postdate: string;
-}
+}*/
 
 /*async function getJobs() {
   const posts = await getJobPosts();
