@@ -17,25 +17,30 @@ async function getJobs() {
 }
 
 export default async function AllJobs() {
-  const jobs = await getJobs(); // Fetch data at build time
+  const jobs = await getJobs();
 
   return (
-    <main>
-      <h1 style={{ fontWeight: 'bold', color: 'black' }}>Result</h1>
-      <ul>
-        {jobs.map((job) => {
-          return (
-            <li key={job.id}>
-              <Link href={`/result/${job.id}`}>
-                <div style={{ cursor: 'pointer', padding: '10px', border: '1px solid #ccc', marginBottom: '10px', color: 'black' }}>
-                  <h2>{job.title}</h2>
+    <main className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h1 className="text-2xl font-bold text-black mb-6">Results</h1>
+      <ul className="space-y-4">
+        {jobs.map((job) => (
+          <li key={job.id} className="border border-gray-200 rounded-lg hover:shadow-sm transition-shadow">
+            <Link href={`/result/${job.id}`} className="block hover:bg-gray-50">
+              <div className="p-4">
+                <h2 className="text-lg font-semibold text-gray-900 mb-2">{job.title}</h2>
+                <div className="text-sm text-gray-600 space-y-2">
                   <p>Organization: {job.organization}</p>
-                  <p>Category: {job.category} <span style={{ float: 'right' }}>Post Date: {new Date(job.startDate).toLocaleDateString()}</span></p>
+                  <div className="flex justify-between items-center">
+                    <span>Category: {job.category}</span>
+                    <span className="text-gray-500">
+                      Posted: {new Date(job.startDate).toLocaleDateString()}
+                    </span>
+                  </div>
                 </div>
-              </Link>
-            </li>
-          );
-        })}
+              </div>
+            </Link>
+          </li>
+        ))}
       </ul>
     </main>
   );

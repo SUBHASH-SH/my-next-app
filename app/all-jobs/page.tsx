@@ -17,24 +17,25 @@ async function getJobs() {
 }
 
 export default async function AllJobs() {
-  const jobs = await getJobs(); // Fetch data at build time
+  const jobs = await getJobs();
 
   return (
-    <main>
-      <h1 style={{ fontWeight: 'bold', color: 'black' }}>All Jobs</h1>
-      <ul>
-        {jobs.map((job) => {
-          return (
-            <li key={job.id}>
-              <Link href={`/all-jobs/${job.id}`}>
-              <div style={{ cursor: 'pointer', padding: '10px', marginBottom: '10px', color: 'black' }}>
-                  <h2>{job.title}</h2>
-                  <p>Category: {job.category} <span style={{ float: 'right' }}>Post Date: {new Date(job.postdate).toLocaleDateString()}</span></p>
+    <main className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h1 className="text-2xl font-bold text-black mb-6">All Jobs</h1>
+      <ul className="space-y-4">
+        {jobs.map((job) => (
+          <li key={job.id} className="border-b border-gray-200 pb-4 last:border-0">
+            <Link href={`/all-jobs/${job.id}`} className="block hover:bg-gray-50 p-4 rounded-lg transition-colors">
+              <div>
+                <h2 className="text-lg font-semibold text-gray-900">{job.title}</h2>
+                <div className="mt-2 flex justify-between items-center text-sm text-gray-600">
+                  <span>Category: {job.category}</span>
+                  <span>Post Date: {new Date(job.postdate).toLocaleDateString()}</span>
                 </div>
-              </Link>
-            </li>
-          );
-        })}
+              </div>
+            </Link>
+          </li>
+        ))}
       </ul>
     </main>
   );
