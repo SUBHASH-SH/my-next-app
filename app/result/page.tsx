@@ -2,7 +2,7 @@
 import { getResultPosts } from '@/lib/post';
 import Link from 'next/link';
 
-interface Job {
+interface Result {
   id: string;
   title: string;
   organization: string;
@@ -12,7 +12,7 @@ interface Job {
 
 async function getJobs() {
   const posts = await getResultPosts();
-  const jobs: Job[] = JSON.parse(JSON.stringify(posts));
+  const jobs: Result[] = JSON.parse(JSON.stringify(posts));
   return jobs;
 }
 

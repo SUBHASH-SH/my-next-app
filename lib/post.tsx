@@ -16,13 +16,13 @@ export async function getJobPostBySlug(jid: string) {
 
 // Fetch Result posts
 export async function getAdmitPosts() {
-  const [rows] = await pool.query('SELECT * FROM admit');
+  const [rows] = await pool.query('SELECT * FROM admit_card');
   return rows;
 }
 
 // Fetch a single result post by slug
 export async function getAdmitBySlug(aid: string) {
-  const [rows] = await pool.query('SELECT * FROM admit WHERE id = ?', [aid]);
+  const [rows] = await pool.query('SELECT * FROM admit_card WHERE id = ?', [aid]);
   const job = JSON.parse(JSON.stringify(rows))[0];
   return job;
 }
