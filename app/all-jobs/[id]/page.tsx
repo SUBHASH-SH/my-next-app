@@ -63,10 +63,11 @@ async function getAdmitCard() {
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
+  const id = (await params).id;
   // Fetch job details from the database
-  const job = await getJobPostBySlug(params.id);
+  const job = await getJobPostBySlug(id);
 
   // If job is not found, return default metadata
   if (!job) {
@@ -83,7 +84,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${job.title} - Sarkari Naukri India`,
       description: job.summary,
-      url: `https://example.com/jobs/${params.id}`,
+      url: `https://example.com/jobs/${id}`,
       images: [
         {
           url: "https://example.com/og-image.jpg", // Replace with your OG image URL
@@ -107,8 +108,8 @@ export default async function JobDetail({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const jid = (await params).id;
-  console.log(jid);
+ const jid = (await params).id;
+  console.log(jid); 
 
   try {
     const job = await getJobPostBySlug(jid);
