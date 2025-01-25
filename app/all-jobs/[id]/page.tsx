@@ -39,23 +39,11 @@ interface Job {
   organization: string;
   category: string;
   postdate: string;
-  isNew:true;
-  post:"1105 Posts";
-  startDate:string;
-  qualification:"Graduation";
-}
-
-interface Result {
-  id: string;
-  title: string;
-  organization: string;
-  category: string;
-  startDate: string;
 }
 
 async function getResult() {
   const posts = await getResultPosts();
-  const jobs: Result[] = JSON.parse(JSON.stringify(posts));
+  const jobs: Job[] = JSON.parse(JSON.stringify(posts));
   return jobs;
 }
 
@@ -409,14 +397,14 @@ export default async function JobDetail({
                     <Link href={`/all-jobs/${job.id}`}>
                       <div className="flex justify-between items-start">
                         <h3 className="text-sm font-medium text-black">{job.title}</h3>
-                        {job.isNew && (
+                        {true && (
                           <span className="px-2 py-1 bg-yellow-200 text-yellow-900 text-xs rounded">
                             New
                           </span>
                         )}
                       </div>
                       <div className="flex items-center w-full pt-3 md:pt-4">
-                        <div className="text-xs text-gray-700">Post Date : {format(new Date(job.startDate), 'yyyy-MM-dd')}</div>
+                        <div className="text-xs text-gray-700">Post Date : {new Date(job.postdate).toLocaleDateString()}</div>
                       </div>
                     </Link>
                   </div>
@@ -435,7 +423,7 @@ export default async function JobDetail({
                         <h3 className="text-sm font-medium text-black">{results.title}</h3>
                       </div>
                       <div className="flex items-center w-full pt-3 md:pt-4">
-                        <div className="text-xs text-gray-700">Post Date : {new Date(results.startDate).toLocaleDateString()}</div>
+                        <div className="text-xs text-gray-700">Post Date : {new Date(results.postdate).toLocaleDateString()}</div>
                       </div>
                     </Link>
                   </div>
@@ -453,7 +441,7 @@ export default async function JobDetail({
                         <h3 className="text-sm font-medium text-black">{admitCard.title}</h3>
                       </div>
                       <div className="flex items-center w-full pt-3 md:pt-4">
-                        <div className="text-xs text-gray-700">Post Date : {new Date(admitCard.startDate).toLocaleDateString()}</div>
+                        <div className="text-xs text-gray-700">Post Date : {new Date(admitCard.postdate).toLocaleDateString()}</div>
                       </div>
                     </Link>
                   </div>

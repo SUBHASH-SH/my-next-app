@@ -60,39 +60,6 @@ export default async function AllJobs() {
   console.log(homejobs);
   //console.log(homejobs[0].lastDate);
 
-  const updates = [
-    'UPSC सिविल सेवा 2024 आवेदन की अंतिम तिथि कल',
-    'SSC CGL 2024 परीक्षा तिथि घोषित',
-    'RRB NTPC परिणाम घोषित',
-    'IBPS PO मुख्य परीक्षा एडमिट कार्ड जारी'
-  ];
-
-  const joba = [
-    {
-      title: 'UPSC Civil Services 2024',
-      posts: '1105 Posts',
-      lastDate: 'Last Date: 05/04/2024',
-      qualification: 'Graduation',
-      isNew: true,
-      category: 'Civil Services'
-    },
-    {
-      title: 'Indian Army SSC Tech 2024',
-      posts: '191 Posts',
-      lastDate: 'Last Date: 28/03/2024',
-      qualification: 'B.E/B.Tech',
-      isNew: true,
-      category: 'Defence'
-    },
-    {
-      title: 'SBI Clerk Recruitment 2024',
-      posts: '8283 Posts',
-      lastDate: 'Last Date: 21/03/2024',
-      qualification: 'Graduation',
-      isNew: false,
-      category: 'Banking'
-    }
-  ];
 
   const results = [
     {
