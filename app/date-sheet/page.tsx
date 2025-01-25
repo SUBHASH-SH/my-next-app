@@ -21,7 +21,7 @@ export default async function AllJobs() {
 
   return (
     <main>
-      <h1>All Jobs</h1>
+      <h1 style={{ fontWeight: 'bold', color: 'black' }}>Date Sheet</h1>
       <ul>
         {jobs.map((job) => {
           return (

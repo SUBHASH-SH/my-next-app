@@ -29,13 +29,13 @@ export async function getAdmitBySlug(aid: string) {
 
 // Fetch Result posts
 export async function getResultPosts() {
-  const [rows] = await pool.query('SELECT * FROM result');
+  const [rows] = await pool.query('SELECT * FROM result_details');
   return rows;
 }
 
 // Fetch a single result post by slug
 export async function getResultBySlug(rid: string) {
-  const [rows] = await pool.query('SELECT * FROM result WHERE id = ?', [rid]);
+  const [rows] = await pool.query('SELECT * FROM result_details WHERE id = ?', [rid]);
   const job = JSON.parse(JSON.stringify(rows))[0];
   return job;
 }
@@ -92,7 +92,20 @@ export async function getDateBySlug(did: string) {
   return job;
 }
 
-////-------------------Admin-------------------////
+////-------------------HOME-------------------////
 
+// Fetch Important Updates
+
+// Fetch Latest live jobs
+// Fetch all Jobs posts
+export async function getHomeJobPosts() {
+  //const [rows] = await pool.query('SELECT * FROM job WHERE last_date > NOW()');
+  const [rows] = await pool.query('SELECT * FROM job');
+  return rows;
+}
+
+// Fetch Latest results
+
+// Fetch Latest live Admit cards
 
 
