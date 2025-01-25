@@ -105,9 +105,9 @@ export async function generateMetadata({
 export default async function JobDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const jid = params.id;
+  const jid = (await params).id;
   console.log(jid);
 
   try {
