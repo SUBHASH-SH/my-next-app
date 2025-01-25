@@ -1,7 +1,7 @@
 import { getJobPostBySlug, getJobPosts , getResultPosts ,getAdmitPosts } from '@/lib/post';
 import type { Metadata } from "next";
 import Link from 'next/link';
-import { format } from 'date-fns';
+//import { format } from 'date-fns';
 
 interface JobDetail {
   id: string;

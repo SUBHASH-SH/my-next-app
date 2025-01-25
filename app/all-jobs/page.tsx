@@ -27,7 +27,7 @@ export default async function AllJobs() {
           return (
             <li key={job.id}>
               <Link href={`/all-jobs/${job.id}`}>
-              <div style={{ cursor: 'pointer', padding: '10px', border: '1px solid #ccc', marginBottom: '10px', color: 'black' }}>
+              <div style={{ cursor: 'pointer', padding: '10px', marginBottom: '10px', color: 'black' }}>
                   <h2>{job.title}</h2>
                   <p>Category: {job.category} <span style={{ float: 'right' }}>Post Date: {new Date(job.postdate).toLocaleDateString()}</span></p>
                 </div>
