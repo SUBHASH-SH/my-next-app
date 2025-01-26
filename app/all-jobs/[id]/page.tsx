@@ -6,31 +6,43 @@ import Link from 'next/link';
 interface JobDetail {
   id: string;
   title: string;
-  organization: string;
-  summary: string;
-  startDate: string;
-  lastDate: string;
   postDate: string;
-  examDate: string | null;
-  otherDate: string | null;
-  feeGeneral: string;
-  feeOBC: string;
-  feeSC: string;
-  feeWomen: string;
-  ageMin: string;
-  ageMax: string;
-  ageRelaxation: string | null;
-  totalVacancies: string;
-  vacancyBreakup: string;
-  payScale: string;
-  salaryBreakup: string | null;
-  selectionProcess: string;
-  documents: string;
-  howToApply: string;
+  category: string;
+  organization: string;
   applyLink: string;
   notificationLink: string;
   officialWebsite: string;
   studyMaterial: string;
+  summary: string;
+  startDate: string;
+  lastDate: string;
+  examDate: string | null;
+  feeLastDate: string;
+  admitCardDate: string | null;
+  feeGeneral: string;
+  feeOBC: string;
+  feeSC: string;
+  feeWomen: string;
+  feeMen: string;
+  free_fee: string;
+  ageMin: string;
+  ageMax: string;
+  ageRelaxation: string | null;
+  payScale: string;
+  salaryBreakup: string | null;
+  totalVacancies: string;
+  vacancyBreakup: string;
+  free_vacancy: string;
+  qualification: string;
+  eligiblity: string;
+  selectionProcess: string;
+  documents: string;
+  howToApply: string;
+  freeText_01: string;
+  freeText_02: string;
+  freeText_03: string;
+  freeText_04: string;
+  freeText_05: string;
 }
 
 interface Job {
@@ -137,8 +149,8 @@ export default async function JobDetail({
         "name": job.organization,
         "sameAs": job.officialWebsite
       },
-      "datePosted": new Date(job.startDate).toISOString(),
-      "validThrough": new Date(job.lastDate).toISOString(),
+      "datePosted": job.startDate,
+      "validThrough": job.lastDate,
       "employmentType": "Full-time",
       "jobLocation": {
         "@type": "Place",
@@ -282,13 +294,16 @@ export default async function JobDetail({
                     <span className="text-gray-600 whitespace-pre-line text-xs">Start Date : {new Date(job.startDate).toLocaleDateString('en-IN')}</span>
                   </div>
                   <div className="flex items-center w-full pl-4">
-                    <span className="text-gray-600 whitespace-pre-line text-xs">Last Date   : {new Date(job.startDate).toLocaleDateString('en-IN')}</span>
+                    <span className="text-gray-600 whitespace-pre-line text-xs">Last Date   : {new Date(job.lastDate).toLocaleDateString('en-IN')}</span>
                   </div>
                   <div className="flex items-center w-full pl-4">
-                    <span className="text-gray-600 whitespace-pre-line text-xs">Exam Date : {new Date(job.startDate).toLocaleDateString('en-IN')}</span>
+                    <span className="text-gray-600 whitespace-pre-line text-xs">Exam Date : {new Date(job.examDate).toLocaleDateString('en-IN')}</span>
                   </div>
                   <div className="flex items-center w-full pl-4">
-                    <span className="text-gray-600 whitespace-pre-line text-xs">{job.feeGeneral}</span>
+                    <span className="text-gray-600 whitespace-pre-line text-xs">{job.feeLastDate}</span>
+                  </div>
+                  <div className="flex items-center w-full pl-4">
+                    <span className="text-gray-600 whitespace-pre-line text-xs">{job.admitCardDate}</span>
                   </div>
                   <div className="flex items-center w-full pl-4 pb-5 md:pb-6"></div>
                 </div>
@@ -308,6 +323,12 @@ export default async function JobDetail({
                   </div>
                   <div>
                     <span className="ml-2 text-gray-600 whitespace-pre-line text-xs">{job.feeWomen}</span>
+                  </div>
+                  <div>
+                    <span className="ml-2 text-gray-600 whitespace-pre-line text-xs">{job.feeMen}</span>
+                  </div>
+                  <div>
+                    <span className="ml-2 text-gray-600 whitespace-pre-line text-xs">{job.free_fee}</span>
                   </div>
                   <div className="flex items-center w-full pl-4 pb-5 md:pb-6"></div>
                 </div>
@@ -357,6 +378,19 @@ export default async function JobDetail({
                     <span className="text-gray-600 whitespace-pre-line text-xs">Category-wise Breakup:</span>
                     <div className="mt-2 text-gray-600 whitespace-pre-line text-xs">{job.vacancyBreakup}</div>
                   </div>
+                  <div className="flex items-center w-full pl-4">
+                    <div className="mt-2 text-gray-600 whitespace-pre-line text-xs">{job.free_vacancy}</div>
+                  </div>
+                  <h2 className="text-base font-semibold text-gray-800 mb-4">Qualification</h2>
+                    <div className="space-y-3 text-xs">
+                      <div className="flex items-center w-full pl-4">
+                        <span className="text-gray-600 whitespace-pre-line text-xs">{job.qualification}</span>
+                      </div>
+                      <div className="flex items-center w-full pl-4">
+                        <span className="text-gray-600 whitespace-pre-line text-xs">{job.eligiblity}</span>
+                      </div>
+                      <div className="flex items-center w-full pl-4"></div>
+                    </div>
                   <h2 className="text-base font-semibold text-gray-800 mb-4">Selection Process</h2>
                     <div className="space-y-3 text-xs">
                       <div className="flex items-center w-full pl-4">
@@ -368,7 +402,7 @@ export default async function JobDetail({
                     <h2 className="text-sm font-semibold text-gray-800 mb-4">Required Documents</h2>
                     <div className="space-y-3 text-xs">
                       <div className="flex items-center w-full pl-4">
-                        <span className="text-gray-600 whitespace-pre-line text-xs">{job.selectionProcess}</span>
+                        <span className="text-gray-600 whitespace-pre-line text-xs">{job.documents}</span>
                       </div>
                       <div className="flex items-center w-full pl-4"></div>
                     </div>
@@ -381,7 +415,11 @@ export default async function JobDetail({
                 <div className="text-gray-600 whitespace-pre-line text-xs">{job.howToApply}</div>
                 <div className="flex items-center w-full pl-4 pb-5 md:pb-6"></div>
                 <h2 className="text-sm font-semibold text-gray-800 mb-4">Frequently Asked Questions</h2>
-                <div className="text-gray-600 whitespace-pre-line text-xs">{job.howToApply}</div>
+                <div className="text-gray-600 whitespace-pre-line text-xs">{job.freeText_01}</div>
+                <div className="text-gray-600 whitespace-pre-line text-xs">{job.freeText_02}</div>
+                <div className="text-gray-600 whitespace-pre-line text-xs">{job.freeText_03}</div>
+                <div className="text-gray-600 whitespace-pre-line text-xs">{job.freeText_04}</div>
+                <div className="text-gray-600 whitespace-pre-line text-xs">{job.freeText_05}</div>
               </div>
             </div>
           </div>
