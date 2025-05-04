@@ -126,8 +126,8 @@ export default async function JobDetail({
   try {
     const job = await getJobPostBySlug(jid);
     const sidejobs = await getJobs();
-    const results = await getResult();
-    const admitCard = await getAdmitCard();
+    //const results = await getResult();
+    //const admitCard = await getAdmitCard();
     if (!job) {
       return (
         <div className="container mx-auto px-4 py-8">
@@ -451,42 +451,7 @@ export default async function JobDetail({
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <h2 className="text-base font-semibold text-gray-800 mb-4">Latest Results</h2>
-              <div className="space-y-3">
-                {/* Placeholder for Featured Jobs */}
-                {results.map(results => (
-                  <div key={results.title} className="border-b pb-4 last:border-0">
-                    <Link href={`/result/${results.id}`}>
-                      <div className="flex justify-between items-start">
-                        <h3 className="text-sm font-medium text-black">{results.title}</h3>
-                      </div>
-                      <div className="flex items-center w-full pt-3 md:pt-4">
-                        <div className="text-xs text-gray-700">Post Date : {new Date(results.postdate).toLocaleDateString()}</div>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <h2 className="text-base font-semibold text-gray-800 mb-4">Latest Admit Cards</h2>
-              <div className="space-y-3">
-                {/* Placeholder for Featured Jobs */}
-                {admitCard.map(admitCard => (
-                  <div key={admitCard.title} className="border-b pb-4 last:border-0">
-                    <Link href={`/admit-card/${admitCard.id}`}>
-                      <div className="flex justify-between items-start">
-                        <h3 className="text-sm font-medium text-black">{admitCard.title}</h3>
-                      </div>
-                      <div className="flex items-center w-full pt-3 md:pt-4">
-                        <div className="text-xs text-gray-700">Post Date : {new Date(admitCard.postdate).toLocaleDateString()}</div>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            </div>
+           
           </div>
         </div>
       </div>

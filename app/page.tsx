@@ -39,6 +39,7 @@ export const metadata: Metadata = {
   },
 };
 
+
 // add isNew, lastDate, qualification
 async function getJobs() {
   const posts = await getJobPosts();
