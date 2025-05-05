@@ -1,6 +1,7 @@
 import { getJobPostBySlug, getJobPosts , getResultPosts ,getAdmitPosts } from '@/lib/post';
 import type { Metadata } from "next";
 import Link from 'next/link';
+import DOMPurify from 'dompurify';
 //import { format } from 'date-fns';
 
 interface JobDetail {
@@ -114,6 +115,69 @@ export async function generateMetadata({
     },
   };
 }
+
+const sampleJobSummary = `
+<h1 style="margin: 12pt 0cm 0cm; break-after: avoid; font-size: 16pt; font-family: 'Calibri Light', sans-serif; color: #2f5496; font-weight: normal;"><strong><span style="font-size: 22.0pt; color: #002060;">Annual Report</span></strong></h1>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">&nbsp;</p>
+<ol style="margin-bottom: 0cm; margin-top: 0px;">
+  <li style="margin: 0cm 0cm 0cm 0px; font-size: 12pt; font-family: Calibri, sans-serif;"><a style="color: #0563c1; text-decoration: underline;" href="https://tiny.cloud/">Highlights</a></li>
+  <li style="margin: 0cm 0cm 0cm 0px; font-size: 12pt; font-family: Calibri, sans-serif;"><a style="color: #0563c1; text-decoration: underline;" href="https://tiny.cloud/">New business</a>
+    <ol style="list-style-type: lower-alpha; margin-bottom: 0cm; margin-top: 0px;">
+      <li style="margin: 0cm 0cm 0cm 0px; font-size: 12pt; font-family: Calibri, sans-serif;"><a style="color: #0563c1; text-decoration: underline;" href="https://tiny.cloud/">Latin America</a></li>
+      <li style="margin: 0cm 0cm 0cm 0px; font-size: 12pt; font-family: Calibri, sans-serif;"><a style="color: #0563c1; text-decoration: underline;" href="https://tiny.cloud/">Europe</a></li>
+    </ol>
+  </li>
+  <li style="margin: 0cm 0cm 0cm 0px; font-size: 12pt; font-family: Calibri, sans-serif;"><a style="color: #0563c1; text-decoration: underline;" href="https://tiny.cloud/">Forward revenue projections</a></li>
+</ol>
+<p style="padding: 0cm; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1pt solid windowtext; margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;"><span style="color: red;">&nbsp;</span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;"><span style="color: red;">&nbsp;</span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">Dear Shareholders,</p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">&nbsp;</p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">We are pleased to report a <strong><em>record-breaking fiscal year</em></strong>, delivering our highest Earnings Per Share (EPS) in history, and expanding into two new emerging markets.</p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">&nbsp;</p>
+<div align="center">
+  <table class="MsoTableGrid" style="border-collapse: collapse; border: none;" border="1" cellspacing="0" cellpadding="0">
+    <tbody>
+      <tr>
+        <td style="width: 108.65pt; border: solid windowtext 1.0pt; background: #D9E2F3; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top">
+          <p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;"><strong><span style="color: black;">Revenue</span></strong></p>
+        </td>
+        <td style="width: 108.65pt; border: solid windowtext 1.0pt; border-left: none; background: #D9E2F3; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top">
+          <p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;"><strong><span style="color: black;">EPS</span></strong></p>
+        </td>
+        <td style="width: 108.7pt; border: solid windowtext 1.0pt; border-left: none; background: #D9E2F3; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top">
+          <p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;"><strong><span style="color: black;">Stock</span></strong></p>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 108.65pt; border: solid windowtext 1.0pt; border-top: none; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top">
+          <p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">$47.4M</p>
+        </td>
+        <td style="width: 108.65pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top">
+          <p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">$1.60</p>
+        </td>
+        <td style="width: 108.7pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top">
+          <p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">+43%</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">&nbsp;</p>
+<h2 style="margin: 2pt 0cm 0cm; break-after: avoid; font-size: 13pt; font-family: 'Calibri Light', sans-serif; color: #2f5496; font-weight: normal;"><strong><span style="color: #002060;">Highlights</span></strong></h2>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">We hope you will find the information enclosed paints a strong foundation to build upon, and a promising future for the company.</p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">&nbsp;</p>
+<h2 style="margin: 2pt 0cm 0cm; break-after: avoid; font-size: 13pt; font-family: 'Calibri Light', sans-serif; color: #2f5496; font-weight: normal;"><strong><span style="color: #002060;">More information</span></strong></h2>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">As always, our Investor Relations team is available if you have any questions about performance.</p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">&nbsp;</p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">Yours sincerely,</p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">&nbsp;</p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;"><img src="../../../static/powerpaste-demo-photo-bee4bf28c11ba456f70bf4d6a13a310e.png" alt="James Coffman" width="88" height="88" align="left" hspace="12"></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">James Coffman</p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;">President and CEO</p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Calibri, sans-serif;"><img src="blob:https://www.tiny.cloud/45ac31e7-c8a4-4b57-9d44-1c40a9e6c2b1" alt="James Coffman Signature" width="141" height="45" border="0"></p>
+    
+`;
 
 export default async function JobDetail({
   params,
@@ -281,12 +345,15 @@ export default async function JobDetail({
               <div className="bg-white rounded-lg shadow-md p-6">
 
               <h2 className="text-sm font-semibold text-gray-800 mb-4">Job Summary</h2>
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-center w-full pl-4">
-                    <span className="text-gray-600 whitespace-pre-line text-xs">{job.summary}</span>
-                  </div>
-                  <div className="flex items-center w-full pl-4 pb-5 md:pb-6"></div>
-                </div>
+              <div className="space-y-3 text-sm">
+              <div className="flex items-center w-full pl-4">
+                <span
+                  className="text-gray-600 whitespace-pre-line text-xs"
+                  dangerouslySetInnerHTML={{ __html: sampleJobSummary }}
+                />
+              </div>
+              <div className="flex items-center w-full pl-4 pb-5 md:pb-6"></div>
+            </div>
 
                 <h2 className="text-sm font-semibold text-gray-800 mb-4">Important Dates</h2>
                 <div className="space-y-3 text-sm">

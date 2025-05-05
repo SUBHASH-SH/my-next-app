@@ -1,313 +1,635 @@
-'use client'
-import { useState, useEffect } from 'react'
-import { FaChevronDown, FaChevronUp, FaEdit, FaTrash } from 'react-icons/fa'
+// app/admin/page.tsx
+"use client";
 
-interface Job {
-  id: string
-  title: string
-  organization: string
-  category: string
-  lastDate: string
-  createdAt: string
-  summary: string
-  startDate: string
-  examDate?: string
-  feeGeneral: string
-  feeOBC: string
-  feeSC: string
-  feeWomen: string
-  ageMin: string
-  ageMax: string
-  ageRelaxation?: string
-  totalVacancies: string
-  vacancyBreakup: string
-  payScale: string
-  salaryBreakup?: string
-  selectionProcess: string
-  documents: string
-  howToApply: string
-  applyLink: string
-  notificationLink: string
-  officialWebsite: string
-}
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
-const jobFields = [
-  // Basic Information
-  { name: 'id', label: 'Job ID', type: 'text', required: true },
-  { name: 'title', label: 'Job Title', type: 'text', required: true },
-  { name: 'organization', label: 'Organization', type: 'text', required: true },
-  { name: 'summary', label: 'Summary', type: 'textarea', required: true },
+type Job = {
+  id: string;
+  title: string;
+  post_date: string;
+  category: string;
+  organization: string;
+  apply_link: string;
+  notification_link: string;
+  official_website: string;
+  study_material: string;
+  summary: string;
+  start_date: string;
+  last_date: string;
+  exam_date: string | null;
+  fee_last_date: string;
+  admit_card_date: string | null;
+  fee_general: string;
+  fee_obc: string;
+  fee_sc: string;
+  fee_women: string;
+  fee_men: string;
+  free_fee: string;
+  age_min: string;
+  age_max: string;
+  age_relaxation: string | null;
+  pay_scale: string;
+  salary_breakup: string | null;
+  total_vacancies: string;
+  vacancy_breakup: string;
+  free_vacancy: string;
+  qualification: string;
+  eligiblity: string;
+  selection_process: string;
+  documents: string;
+  how_to_apply: string;
+  free_text_01: string;
+  free_text_02: string;
+  free_text_03: string;
+  free_text_04: string;
+  free_text_05: string;
+};
 
-  // Job Category
-  {
-    name: 'category',
-    label: 'Job Category',
-    type: 'select',
-    required: true,
-    options: [
-      { value: 'government', label: 'Government Jobs' },
-      { value: 'banking', label: 'Bank Jobs' },
-      { value: 'teaching', label: 'Teaching Jobs' },
-      { value: 'railway', label: 'Railway Jobs' },
-      { value: 'police', label: 'Police Jobs' },
-      { value: 'engineering', label: 'Engineering Jobs' },
-      { value: 'medical', label: 'Medical Jobs' },
-      { value: 'defence', label: 'Defence Jobs' },
-      { value: 'other', label: 'Other Jobs' },
-    ],
-  },
+export default function AdminPanel() {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [editingJob, setEditingJob] = useState<Job | null>(null);
+  const [viewingJob, setViewingJob] = useState<Job | null>(null);
+  const [sections, setSections] = useState({
+    basic: true,
+    dates: false,
+    fees: false,
+    age: false,
+    salary: false,
+    vacancies: false,
+    eligibility: false,
+    process: false,
+    freeText: false,
+  });
+  const { register, handleSubmit, reset } = useForm<Job>();
 
-  // Important Dates
-  { name: 'startDate', label: 'Start Date', type: 'date', required: true },
-  { name: 'lastDate', label: 'Last Date', type: 'date', required: true },
-  { name: 'examDate', label: 'Exam Date', type: 'date' },
-
-  // Application Fee
-  { name: 'feeGeneral', label: 'General Category Fee', type: 'text', required: true },
-  { name: 'feeOBC', label: 'OBC Category Fee', type: 'text', required: true },
-  { name: 'feeSC', label: 'SC/ST Category Fee', type: 'text', required: true },
-  { name: 'feeWomen', label: 'Women Category Fee', type: 'text', required: true },
-
-  // Age Limit
-  { name: 'ageMin', label: 'Minimum Age', type: 'text', required: true },
-  { name: 'ageMax', label: 'Maximum Age', type: 'text', required: true },
-  { name: 'ageRelaxation', label: 'Age Relaxation Details', type: 'textarea' },
-
-  // Salary
-  { name: 'payScale', label: 'Pay Scale', type: 'text', required: true },
-  { name: 'salaryBreakup', label: 'Salary Breakup', type: 'textarea' },
-
-  // Vacancy Details
-  { name: 'totalVacancies', label: 'Total Vacancies', type: 'text', required: true },
-  { name: 'vacancyBreakup', label: 'Vacancy Category Breakup', type: 'textarea', required: true },
-
-  // Selection Process
-  { name: 'selectionProcess', label: 'Selection Process', type: 'textarea', required: true },
-
-  // Required Documents
-  { name: 'documents', label: 'Required Documents', type: 'textarea', required: true },
-
-  // How to Apply
-  { name: 'howToApply', label: 'How to Apply', type: 'textarea', required: true },
-
-  // Important Links
-  { name: 'applyLink', label: 'Application Link', type: 'text', required: true },
-  { name: 'notificationLink', label: 'Notification Link', type: 'text', required: true },
-  { name: 'officialWebsite', label: 'Official Website', type: 'text', required: true },
-]
-
-export default function JobsAdmin() {
-  const [jobs, setJobs] = useState<Job[]>([])
-  const [loading, setLoading] = useState(true)
-  const [isFormVisible, setIsFormVisible] = useState(false)
-  const [editingJob, setEditingJob] = useState<Job | null>(null)
-  const [formData, setFormData] = useState<Partial<Job>>({})
-
+  // Fetch jobs
   useEffect(() => {
-    fetchJobs()
-  }, [])
+    fetch("/api/jobs")
+      .then((res) => res.json())
+      .then((data) => setJobs(data));
+  }, []);
 
-  const fetchJobs = async () => {
+  // Create or update job
+  const onSubmit = async (data: Job) => {
     try {
-      const response = await fetch('/api/jobs');
-      const data = await response.json();
-      setJobs(data);
-    } catch (error) {
-      console.error('Error fetching jobs:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const handleEdit = (job: Job) => {
-    setEditingJob(job)
-    setFormData(job)
-    setIsFormVisible(true)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this job?')) return
-
-    try {
-      const response = await fetch(`/api/jobs/${id}`, {
-        method: 'DELETE',
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to delete job')
-      }
-
-      fetchJobs()
-      alert('Job deleted successfully!')
-    } catch (error) {
-      console.error('Error deleting job:', error)
-      alert('Failed to delete job')
-    }
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-  
-    try {
-      setLoading(true);
-  
-      const url = editingJob ? `/api/jobs/${editingJob.id}` : '/api/jobs';
-      const method = editingJob ? 'PUT' : 'POST';
-  
-      const response = await fetch(url, {
+      const method = editingJob ? "PUT" : "POST";
+      const body = editingJob ? { ...data, id: editingJob.id } : data;
+      const res = await fetch("/api/jobs", {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
       });
-  
-      if (!response.ok) {
-        throw new Error('Failed to save job');
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Operation failed");
       }
-  
-      alert(editingJob ? 'Job updated successfully!' : 'Job saved successfully!');
+      reset();
       setEditingJob(null);
-      setFormData({});
-      fetchJobs();
-      setIsFormVisible(false);
-    } catch (error) {
-      console.error('Error saving job:', error);
-      alert('Failed to save job');
-    } finally {
-      setLoading(false);
+      const updatedJobs = await fetch("/api/jobs").then((res) => res.json());
+      setJobs(updatedJobs);
+    } catch (error: any) {
+      alert(`Failed to save job: ${error.message}`);
     }
-  }
+  };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  // Delete job
+  const deleteJob = async (id: string) => {
+    try {
+      const res = await fetch("/api/jobs", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Delete failed");
+      }
+      const updatedJobs = await fetch("/api/jobs").then((res) => res.json());
+      setJobs(updatedJobs);
+    } catch (error: any) {
+      alert(`Failed to delete job: ${error.message}`);
+    }
+  };
+
+  // Edit job
+  const editJob = (job: Job) => {
+    setEditingJob(job);
+    reset(job);
+  };
+
+  // Toggle section
+  const toggleSection = (section: keyof typeof sections) => {
+    setSections((prev) => ({ ...prev, [section]: !prev[section] }));
+  };
 
   return (
-    <div>
-      <h1 className="text-base md:text-lg font-bold mb-3">Manage Jobs</h1>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Job Admin Panel</h1>
 
-      {/* Add New Job Button & Form */}
-      <div className="bg-white rounded-lg shadow-md mb-6">
-        <button
-          onClick={() => {
-            setIsFormVisible(!isFormVisible)
-            if (isFormVisible) {
-              setEditingJob(null)
-              setFormData({})
-            }
-          }}
-          className="w-full px-3 py-2 text-left flex items-center justify-between font-medium text-gray-800 hover:bg-gray-50 text-xs md:text-sm"
-        >
-          <span>{editingJob ? 'Edit Job' : 'Add New Job'}</span>
-          {isFormVisible ? <FaChevronUp className="text-sm" /> : <FaChevronDown className="text-sm" />}
-        </button>
-
-        {isFormVisible && (
-          <form onSubmit={handleSubmit} className="p-3 border-t">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {jobFields.map((field) => (
-                <div key={field.name} className="space-y-1">
-                  <label className="text-sm text-gray-600">{field.label}</label>
-                  {field.type === 'textarea' ? (
-                    <textarea
-                      name={field.name}
-                      value={formData[field.name as keyof Job] || ''}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded-md text-sm"
-                      required={field.required}
-                    />
-                  ) : field.type === 'select' ? (
-                    <select
-                      name={field.name}
-                      value={formData[field.name as keyof Job] || ''}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded-md text-sm"
-                      required={field.required}
-                    >
-                      <option value="">Select {field.label}</option>
-                      {field.options?.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      type={field.type}
-                      name={field.name}
-                      value={formData[field.name as keyof Job] || ''}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded-md text-sm"
-                      required={field.required}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-            <button
-              type="submit"
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
-            >
-              {editingJob ? 'Update Job' : 'Add Job'}
-            </button>
-          </form>
-        )}
-      </div>
-
-      {/* Jobs List */}
-      <div className="bg-white rounded-lg shadow-md">
-        <div className="p-3">
-          <h2 className="text-sm md:text-base font-medium mb-2">All Jobs</h2>
-          {loading ? (
-            <div className="flex justify-center py-6">
-              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-blue-600"></div>
-            </div>
-          ) : jobs.length === 0 ? (
-            <div className="text-center py-4 text-gray-500 text-xs md:text-sm">No jobs found</div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="text-left text-gray-500 text-xs md:text-sm">
-                    <th className="pb-2">Title</th>
-                    <th className="pb-2">Category</th>
-                    <th className="pb-2">Last Date</th>
-                    <th className="pb-2">Created</th>
-                    <th className="pb-2">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="text-gray-600 text-xs md:text-sm">
-                  {jobs.map((job) => (
-                    <tr key={job.id} className="border-t">
-                      <td className="py-1.5">{job.title}</td>
-                      <td>{job.category}</td>
-                      <td>{new Date(job.lastDate).toLocaleDateString()}</td>
-                      <td>{new Date(job.createdAt).toLocaleDateString()}</td>
-                      <td>
-                        <button
-                          className="text-blue-600 hover:text-blue-800 mr-1.5 text-xs md:text-sm"
-                          onClick={() => handleEdit(job)}
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          className="text-red-600 hover:text-red-800 text-xs md:text-sm"
-                          onClick={() => handleDelete(job.id)}
-                        >
-                          <FaTrash />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+      {/* Form */}
+      <form onSubmit={handleSubmit(onSubmit)} className="mb-8 bg-gray-100 p-4 rounded">
+        {/* Basic Info */}
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={() => toggleSection("basic")}
+            className="text-lg font-semibold"
+          >
+            {sections.basic ? "▼" : "▶"} Basic Information
+          </button>
+          {sections.basic && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <div>
+                <label className="block text-sm font-medium">ID</label>
+                <input
+                  {...register("id", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                  disabled={!!editingJob}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Title</label>
+                <input
+                  {...register("title", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Post Date</label>
+                <input
+                  {...register("post_date", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                  type="date"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Category</label>
+                <input
+                  {...register("category", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Organization</label>
+                <input
+                  {...register("organization", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Apply Link</label>
+                <input
+                  {...register("apply_link", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Notification Link</label>
+                <input
+                  {...register("notification_link", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Official Website</label>
+                <input
+                  {...register("official_website", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Study Material</label>
+                <input
+                  {...register("study_material", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Summary</label>
+                <textarea
+                  {...register("summary", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
             </div>
           )}
         </div>
-      </div>
+
+        {/* Dates */}
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={() => toggleSection("dates")}
+            className="text-lg font-semibold"
+          >
+            {sections.dates ? "▼" : "▶"} Dates
+          </button>
+          {sections.dates && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <div>
+                <label className="block text-sm font-medium">Start Date</label>
+                <input
+                  {...register("start_date", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                  type="date"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Last Date</label>
+                <input
+                  {...register("last_date", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                  type="date"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Exam Date</label>
+                <input
+                  {...register("exam_date")}
+                  className="mt-1 p-2 border rounded w-full"
+                  type="date"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Fee Last Date</label>
+                <input
+                  {...register("fee_last_date", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                  type="date"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Admit Card Date</label>
+                <input
+                  {...register("admit_card_date")}
+                  className="mt-1 p-2 border rounded w-full"
+                  type="date"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Fees */}
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={() => toggleSection("fees")}
+            className="text-lg font-semibold"
+          >
+            {sections.fees ? "▼" : "▶"} Fees
+          </button>
+          {sections.fees && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <div>
+                <label className="block text-sm font-medium">Fee General</label>
+                <input
+                  {...register("fee_general", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Fee OBC</label>
+                <input
+                  {...register("fee_obc", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Fee SC</label>
+                <input
+                  {...register("fee_sc", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Fee Women</label>
+                <input
+                  {...register("fee_women", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Fee Men</label>
+                <input
+                  {...register("fee_men", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Free Fee</label>
+                <input
+                  {...register("free_fee", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Age */}
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={() => toggleSection("age")}
+            className="text-lg font-semibold"
+          >
+            {sections.age ? "▼" : "▶"} Age
+          </button>
+          {sections.age && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <div>
+                <label className="block text-sm font-medium">Age Min</label>
+                <input
+                  {...register("age_min", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Age Max</label>
+                <input
+                  {...register("age_max", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Age Relaxation</label>
+                <input
+                  {...register("age_relaxation")}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Salary */}
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={() => toggleSection("salary")}
+            className="text-lg font-semibold"
+          >
+            {sections.salary ? "▼" : "▶"} Salary
+          </button>
+          {sections.salary && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <div>
+                <label className="block text-sm font-medium">Pay Scale</label>
+                <input
+                  {...register("pay_scale", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Salary Breakup</label>
+                <textarea
+                  {...register("salary_breakup")}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Vacancies */}
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={() => toggleSection("vacancies")}
+            className="text-lg font-semibold"
+          >
+            {sections.vacancies ? "▼" : "▶"} Vacancies
+          </button>
+          {sections.vacancies && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <div>
+                <label className="block text-sm font-medium">Total Vacancies</label>
+                <input
+                  {...register("total_vacancies", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Vacancy Breakup</label>
+                <textarea
+                  {...register("vacancy_breakup", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Free Vacancy</label>
+                <input
+                  {...register("free_vacancy", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Eligibility */}
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={() => toggleSection("eligibility")}
+            className="text-lg font-semibold"
+          >
+            {sections.eligibility ? "▼" : "▶"} Eligibility
+          </button>
+          {sections.eligibility && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <div>
+                <label className="block text-sm font-medium">Qualification</label>
+                <textarea
+                  {...register("qualification", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Eligibility</label>
+                <textarea
+                  {...register("eligiblity", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Process */}
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={() => toggleSection("process")}
+            className="text-lg font-semibold"
+          >
+            {sections.process ? "▼" : "▶"} Process
+          </button>
+          {sections.process && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <div>
+                <label className="block text-sm font-medium">Selection Process</label>
+                <textarea
+                  {...register("selection_process", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Documents</label>
+                <textarea
+                  {...register("documents", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">How to Apply</label>
+                <textarea
+                  {...register("how_to_apply", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Free Text */}
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={() => toggleSection("freeText")}
+            className="text-lg font-semibold"
+          >
+            {sections.freeText ? "▼" : "▶"} Additional Information
+          </button>
+          {sections.freeText && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <div>
+                <label className="block text-sm font-medium">Free Text 01</label>
+                <textarea
+                  {...register("free_text_01", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Free Text 02</label>
+                <textarea
+                  {...register("free_text_02", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Free Text 03</label>
+                <textarea
+                  {...register("free_text_03", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Free Text 04</label>
+                <textarea
+                  {...register("free_text_04", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Free Text 05</label>
+                <textarea
+                  {...register("free_text_05", { required: true })}
+                  className="mt-1 p-2 border rounded w-full"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          className="bg-blue-500 text-white p-2 rounded"
+        >
+          {editingJob ? "Update Job" : "Add Job"}
+        </button>
+        {editingJob && (
+          <button
+            type="button"
+            onClick={() => {
+              setEditingJob(null);
+              reset();
+            }}
+            className="ml-2 bg-gray-500 text-white p-2 rounded"
+          >
+            Cancel
+          </button>
+        )}
+      </form>
+
+      {/* Jobs Table */}
+      <table className="w-full border-collapse border">
+        <thead>
+          <tr>
+            <th className="border p-2">ID</th>
+            <th className="border p-2">Title</th>
+            <th className="border p-2">Organization</th>
+            <th className="border p-2">Category</th>
+            <th className="border p-2">Post Date</th>
+            <th className="border p-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {jobs.map((job) => (
+            <tr key={job.id}>
+              <td className="border p-2">{job.id}</td>
+              <td className="border p-2">{job.title}</td>
+              <td className="border p-2">{job.organization}</td>
+              <td className="border p-2">{job.category}</td>
+              <td className="border p-2">{job.post_date}</td>
+              <td className="border p-2">
+                <button
+                  onClick={() => editJob(job)}
+                  className="bg-yellow-500 text-white p-1 rounded mr-2"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => deleteJob(job.id)}
+                  className="bg-red-500 text-white p-1 rounded mr-2"
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() => setViewingJob(job)}
+                  className="bg-green-500 text-white p-1 rounded"
+                >
+                  View Details
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Details Modal */}
+      {viewingJob && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded max-w-2xl max-h-[80vh] overflow-y-auto">
+            <h2 className="text-xl font-bold mb-4">{viewingJob.title}</h2>
+            <div className="grid grid-cols-1 gap-2">
+              {Object.entries(viewingJob).map(([key, value]) => (
+                <p key={key}>
+                  <strong>{key}:</strong> {value || "N/A"}
+                </p>
+              ))}
+            </div>
+            <button
+              onClick={() => setViewingJob(null)}
+              className="mt-4 bg-gray-500 text-white p-2 rounded"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }
